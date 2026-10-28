@@ -9,7 +9,12 @@ typedef struct{
     int fans;
 } Idol;
 
-
+void mostrar(const Idol *i){
+    printf("Nombre:      %s\n", i->nombre);
+    printf("Popularidad: %d\n", i->popularidad);
+    printf("Energia:     %d / %d\n", i->energia, i->energia_max);
+    printf("Fans:        %d\n", i->fans);
+}
 
 int main(){
     Idol jennie = {"jennie", 50, 100, 100, 12000};
@@ -25,6 +30,8 @@ int main(){
 
     printf("Direccion guardada en p: %p\n", (void *)p);
     printf("Direccion de &jennie:     %p\n", (void *)&jennie);
+
+    mostrar(&jennie);
 
 return 0;
 }
