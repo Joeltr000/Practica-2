@@ -30,6 +30,11 @@ void ensayar(Idol *i){
     i->popularidad += 5;
     i->energia = limitar(i->energia - 20, 0, i->energia_max);
 }
+
+void descansar(Idol *i){
+    int recuperacion = 30;
+    i->energia = limitar(i->energia + recuperacion, 0, i->energia_max);
+}
 int main(){
     Idol jennie = {"jennie", 50, 100, 100, 12000};
 
@@ -58,5 +63,11 @@ int main(){
     printf("estado despues de 20 ensayos consecutivos:\n");
     mostrar(&jennie);
 
+    for(int j = 1; j <= 20; j++){
+       descansar(&jennie);
+    }
+
+    printf("despues de 20 descansos consecutivos (tope maximo):\n");
+    mostrar(&jennie);
 return 0;
 }
