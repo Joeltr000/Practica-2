@@ -16,6 +16,17 @@ void mostrar(const Idol *i){
     printf("Fans:        %d\n", i->fans);
 }
 
+int limitar(int valor, int minimo, int maximo){
+    if (valor < minimo){
+	return minimo;
+    }
+    if (valor > maximo){
+	return maximo;
+    }
+    return valor;
+}
+
+
 int main(){
     Idol jennie = {"jennie", 50, 100, 100, 12000};
 
@@ -32,6 +43,10 @@ int main(){
     printf("Direccion de &jennie:     %p\n", (void *)&jennie);
 
     mostrar(&jennie);
+
+    printf("limitar(-5, 0, 100)  -> Resultado: %d (Debe ser 0)\n", limitar(-5, 0, 100));
+    printf("limitar(150, 0, 100) -> Resultado: %d (Debe ser 100)\n", limitar(150, 0, 100));
+    printf("limitar(40, 0, 100)  -> Resultado: %d (Debe ser 40)\n\n", limitar(40, 0, 100));
 
 return 0;
 }
