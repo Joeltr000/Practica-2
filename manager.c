@@ -138,5 +138,39 @@ int main(){
     printf("\nEstado despues de la colaboracion valida:\n");
     mostrar(&jennie);
     mostrar(&rose);
+
+
+Idol *turno = &jennie;
+    Idol *otra = &rose;
+    int contador_turnos = 1;
+
+    
+    while (esta_activa(turno) && esta_activa(otra)) {
+        printf("Turno %d: A ensayar -> %s\n", contador_turnos, turno->nombre);
+        
+        
+        ensayar(turno);
+
+        
+        Idol *temp = turno;
+        turno = otra;
+        otra = temp;
+
+        contador_turnos++;
+    }
+
+    printf("\n--- Fin de la dinamica por turnos ---\n");
+    
+    if (esta_activa(&jennie)) {
+        printf("¡%s conserva energia y gana la dinamica!\n", jennie.nombre);
+    } else if (esta_activa(&rose)) {
+        printf("¡%s conserva energia y gana la dinamica!\n", rose.nombre);
+    } else {
+        printf("Ambas se quedaron sin energia al mismo tiempo.\n");
+    }
+
+    printf("\nEstado final de las idols:\n");
+    mostrar(&jennie);
+    mostrar(&rose);
 return 0;
 }
