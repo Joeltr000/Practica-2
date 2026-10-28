@@ -42,6 +42,14 @@ int esta_activa(const Idol *i){
     }
     return 0;
 }
+
+void ensayos_por_valor(Idol i){
+   i.popularidad +=5;
+   i.energia = limitar(i.energia - 20, 0, i.energia_max);
+   printf("Popularidad local: %d, Energia local: %d\n", i.popularidad, i.energia);
+}
+
+
 int main(){
     Idol jennie = {"jennie", 50, 100, 100, 12000};
 
@@ -79,8 +87,18 @@ int main(){
     }
 
     printf("despues de 1 descanso consecutivo:\n");
-    printf("¿Esta activa con energia > 0? (1=Si, 0=No): %d\n", esta_activa(&jennie));
+    printf("¿Esta activa con energia > 0? (1=Si, 0=No): %d\n\n", esta_activa(&jennie));
 
 
+    printf("Llamando a ensayar_por_valor(jennie):\n");
+    ensayos_por_valor(jennie);
+    printf("En el main despues de pasar por valor, la popularidad sigue siendo: %d (No cambio)\n\n", jennie.popularidad);
+
+    printf("Llamando a ensayar(&jennie) con apuntador:\n");
+    ensayar(&jennie);
+    printf("En el main despues de pasar por apuntador, la popularidad cambio a: %d (Si cambio)\n\n", jennie.popularidad);
+
+
+    printf("¿Sigue activa jennie? (1=Si, 0=No): %d\n",esta_activa(&jennie));
 return 0;
 }
