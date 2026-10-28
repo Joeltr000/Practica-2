@@ -35,6 +35,13 @@ void descansar(Idol *i){
     int recuperacion = 30;
     i->energia = limitar(i->energia + recuperacion, 0, i->energia_max);
 }
+
+int esta_activa(const Idol *i){
+    if (i->energia > 0){
+        return 1;
+    }
+    return 0;
+}
 int main(){
     Idol jennie = {"jennie", 50, 100, 100, 12000};
 
@@ -56,18 +63,24 @@ int main(){
     printf("limitar(150, 0, 100) -> Resultado: %d (Debe ser 100)\n", limitar(150, 0, 100));
     printf("limitar(40, 0, 100)  -> Resultado: %d (Debe ser 40)\n\n", limitar(40, 0, 100));
 
-    for(int j = 1; j <= 20; j++){
+    printf("¿Esta activa al inicio? (1=Si, 0=No): %d\n",esta_activa(&jennie));
+
+    for(int j = 1; j <= 5; j++){
        ensayar(&jennie);
     }
 
-    printf("estado despues de 20 ensayos consecutivos:\n");
+    printf("estado despues de 5 ensayos consecutivos:\n");
     mostrar(&jennie);
 
-    for(int j = 1; j <= 20; j++){
+    printf("¿Esta activa con 0 de energia? (1=Si, 0=No): %d\n",esta_activa(&jennie));
+
+    for(int j = 1; j <= 1; j++){
        descansar(&jennie);
     }
 
-    printf("despues de 20 descansos consecutivos (tope maximo):\n");
-    mostrar(&jennie);
+    printf("despues de 1 descanso consecutivo:\n");
+    printf("¿Esta activa con energia > 0? (1=Si, 0=No): %d\n", esta_activa(&jennie));
+
+
 return 0;
 }
