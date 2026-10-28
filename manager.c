@@ -14,6 +14,7 @@ void mostrar(const Idol *i){
     printf("Popularidad: %d\n", i->popularidad);
     printf("Energia:     %d / %d\n", i->energia, i->energia_max);
     printf("Fans:        %d\n", i->fans);
+    printf("---------------------------------------------------\n");
 }
 
 int limitar(int valor, int minimo, int maximo){
@@ -50,8 +51,25 @@ void ensayos_por_valor(Idol i){
 }
 
 
+int colaboracion(Idol *a, Idol *b) {
+    
+    if (a == NULL || b == NULL || a == b) {
+        return 0; 
+    }
+
+    a->popularidad += 10;
+    a->energia = limitar(a->energia - 15, 0, a->energia_max);
+
+    b->popularidad += 10;
+    b->energia = limitar(b->energia - 15, 0, b->energia_max);
+
+    printf("¡Colaboracion exitosa entre %s y %s!\n", a->nombre, b->nombre);
+    return 1;
+}
+
 int main(){
     Idol jennie = {"jennie", 50, 100, 100, 12000};
+    Idol rose = {"rose", 45, 100, 100, 10000};
 
     printf("Idol registrada: %s\n", jennie.nombre);
     printf("Energia: %d / %d\n", jennie.energia, jennie.energia_max);
@@ -66,6 +84,7 @@ int main(){
     printf("Direccion de &jennie:     %p\n", (void *)&jennie);
 
     mostrar(&jennie);
+    mostrar(&rose);
 
     printf("limitar(-5, 0, 100)  -> Resultado: %d (Debe ser 0)\n", limitar(-5, 0, 100));
     printf("limitar(150, 0, 100) -> Resultado: %d (Debe ser 100)\n", limitar(150, 0, 100));
@@ -100,5 +119,24 @@ int main(){
 
 
     printf("¿Sigue activa jennie? (1=Si, 0=No): %d\n",esta_activa(&jennie));
+
+
+    printf("1.colaboracion(&jennie, &jennie)\n");
+    int res1 = colaboracion(&jennie, &jennie);
+    printf("Resultado obtenido (esperado 0): %d\n\n", res1);
+
+    
+    printf("2.colaboracion(NULL, &rose)\n");
+    int res2 = colaboracion(NULL, &rose);
+    printf("Resultado obtenido (esperado 0): %d\n\n", res2);
+
+    
+    printf("3.colaboracion(&jennie, &rose)\n");
+    int res3 = colaboracion(&jennie, &rose);
+    printf("Resultado obtenido (esperado 1): %d\n", res3);
+
+    printf("\nEstado despues de la colaboracion valida:\n");
+    mostrar(&jennie);
+    mostrar(&rose);
 return 0;
 }
