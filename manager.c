@@ -9,6 +9,12 @@ typedef struct{
     int fans;
 } Idol;
 
+typedef struct{
+    char nombre[30];
+    int bonus;
+    int vigencia;
+} Cancion;
+
 void mostrar(const Idol *i){
     printf("Nombre:      %s\n", i->nombre);
     printf("Popularidad: %d\n", i->popularidad);
@@ -68,20 +74,25 @@ int colaboracion(Idol *a, Idol *b) {
 }
 
 int main(){
+
+    Cancion disco[2] = {
+        {"Starlight", 10, 3},
+        {"Nova", 5,6}
+    };
+
+
     Idol jennie = {"jennie", 50, 100, 100, 12000};
     Idol rose = {"rose", 45, 100, 100, 10000};
 
-    printf("Idol registrada: %s\n", jennie.nombre);
-    printf("Energia: %d / %d\n", jennie.energia, jennie.energia_max);
+    printf("Registrar cancion\n");
+    printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[0].nombre, disco[0].bonus, disco[0].vigencia);
+    printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[1].nombre, disco[1].bonus, disco[1].vigencia);
 
     Idol *p = &jennie;
 
     printf("1.Usando jennie.fans: %d\n", jennie.fans);
     printf("2.Usando (*p).fans: %d\n", (*p).fans);
     printf("3.usando p->fans: %d\n\n", p->fans);
-
-    printf("Direccion guardada en p: %p\n", (void *)p);
-    printf("Direccion de &jennie:     %p\n", (void *)&jennie);
 
     mostrar(&jennie);
     mostrar(&rose);
@@ -125,12 +136,12 @@ int main(){
     int res1 = colaboracion(&jennie, &jennie);
     printf("Resultado obtenido (esperado 0): %d\n\n", res1);
 
-    
+
     printf("2.colaboracion(NULL, &rose)\n");
     int res2 = colaboracion(NULL, &rose);
     printf("Resultado obtenido (esperado 0): %d\n\n", res2);
 
-    
+
     printf("3.colaboracion(&jennie, &rose)\n");
     int res3 = colaboracion(&jennie, &rose);
     printf("Resultado obtenido (esperado 1): %d\n", res3);
@@ -144,14 +155,13 @@ Idol *turno = &jennie;
     Idol *otra = &rose;
     int contador_turnos = 1;
 
-    
+
     while (esta_activa(turno) && esta_activa(otra)) {
         printf("Turno %d: A ensayar -> %s\n", contador_turnos, turno->nombre);
-        
-        
+
+
         ensayar(turno);
 
-        
         Idol *temp = turno;
         turno = otra;
         otra = temp;
@@ -160,7 +170,7 @@ Idol *turno = &jennie;
     }
 
     printf("\n--- Fin de la dinamica por turnos ---\n");
-    
+
     if (esta_activa(&jennie)) {
         printf("¡%s conserva energia y gana la dinamica!\n", jennie.nombre);
     } else if (esta_activa(&rose)) {
@@ -172,5 +182,7 @@ Idol *turno = &jennie;
     printf("\nEstado final de las idols:\n");
     mostrar(&jennie);
     mostrar(&rose);
+
+
 return 0;
 }
