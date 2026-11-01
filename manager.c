@@ -68,9 +68,9 @@ void ensayos_por_valor(Idol i){
 
 
 int colaboracion(Idol *a, Idol *b) {
-    
+
     if (a == NULL || b == NULL || a == b) {
-        return 0; 
+        return 0;
     }
 
     a->popularidad += 10;
@@ -83,6 +83,14 @@ int colaboracion(Idol *a, Idol *b) {
     return 1;
 }
 
+void asignar_cancion(Idol *i, Cancion *c){
+    if (i == NULL){
+        return;
+    }
+    i->cancion = c;
+}
+
+
 int main(){
 
     Cancion disco[2] = {
@@ -91,8 +99,12 @@ int main(){
     };
 
 
-    Idol jennie = {"jennie", 50, 100, 100, 12000};
-    Idol rose = {"rose", 45, 100, 100, 10000};
+    Idol jennie = {"jennie", 50, 100, 100, 12000,NULL};
+    Idol rose = {"rose", 45, 100, 100, 10000,NULL};
+
+    printf("Asignacion el disco 'Starlight' a Jenni y a Rose:\n");
+    asignar_cancion(&jennie, &disco[0]);
+    asignar_cancion(&rose, &disco[0]);
 
     printf("Registrar cancion\n");
     printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[0].nombre, disco[0].bonus, disco[0].vigencia);
@@ -106,6 +118,17 @@ int main(){
 
     mostrar(&jennie);
     mostrar(&rose);
+
+
+    printf("Quitando la canción a Jennie mediante asignar_cancion(&jennie, NULL):\n");
+    asignar_cancion(&jennie, NULL);
+
+    mostrar(&jennie);
+    mostrar(&rose);
+
+    printf("probando seguridad con apuntador NULL en la funcion:\n");
+    asignar_cancion(NULL, &disco[1]);
+    printf("¡prueba superada sin errores de ejecutacion!\n");
 
     printf("limitar(-5, 0, 100)  -> Resultado: %d (Debe ser 0)\n", limitar(-5, 0, 100));
     printf("limitar(150, 0, 100) -> Resultado: %d (Debe ser 100)\n", limitar(150, 0, 100));
