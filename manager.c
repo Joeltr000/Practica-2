@@ -1,13 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 
-typedef struct{
-    char nombre[30];
-    int popularidad;
-    int energia;
-    int energia_max;
-    int fans;
-} Idol;
 
 typedef struct{
     char nombre[30];
@@ -15,12 +8,29 @@ typedef struct{
     int vigencia;
 } Cancion;
 
+typedef struct{
+    char nombre[30];
+    int popularidad;
+    int energia;
+    int energia_max;
+    int fans;
+    Cancion *cancion;
+} Idol;
+
+
+
 void mostrar(const Idol *i){
     printf("Nombre:      %s\n", i->nombre);
     printf("Popularidad: %d\n", i->popularidad);
     printf("Energia:     %d / %d\n", i->energia, i->energia_max);
     printf("Fans:        %d\n", i->fans);
-    printf("---------------------------------------------------\n");
+
+    if (i->cancion != NULL){
+        printf("Cancion: %s (Bonus: %d, Vigencia: %d\n", i->cancion->nombre, i->cancion->bonus, i->cancion->vigencia);
+    } else {
+        printf("Cancion: Ninguna(NULL)\n");
+    }
+    printf("-------------------------------------------------------\n");
 }
 
 int limitar(int valor, int minimo, int maximo){
