@@ -17,13 +17,15 @@ typedef struct{
     Cancion *cancion;
 } Idol;
 
+typedef struct{
+    char nombre[30];
+    Idol miembro[4];
+    int n;
+    Idol *lider;
+}Grupo;
 
-
-void mostrar(const Idol *i){
-    printf("Nombre:      %s\n", i->nombre);
-    printf("Popularidad: %d\n", i->popularidad);
-    printf("Energia:     %d / %d\n", i->energia, i->energia_max);
-    printf("Fans:        %d\n", i->fans);
+void mostrar(const Idol *i){ printf("Nombre: %s\n", i->nombre);
+    printf("Popularidad: %d\n", i->popularidad); printf("Energia: %d / %d\n", i->energia, i->energia_max); printf("Fans: %d\n", i->fans);
 
     if (i->cancion != NULL){
         printf("Cancion: %s (Bonus: %d, Vigencia: %d\n", i->cancion->nombre, i->cancion->bonus, i->cancion->vigencia);
@@ -106,135 +108,29 @@ int main(){
         {"Nova", 5,6}
     };
 
+    Grupo lumina = {
+        "Lumina",
+        {
+            {"jennie", 50, 100, 100, 12000,NULL},
+            {"rose", 45, 100, 100, 10000,NULL},
+            {"lisa", 55, 100, 100, 15000,NULL}
+        },
+        3,
+        NULL
+    };
 
-    Idol jennie = {"jennie", 50, 100, 100, 12000,NULL};
-    Idol rose = {"rose", 45, 100, 100, 10000,NULL};
+    asignar_cancion(&lumina.miembro[0], &disco[0]);
+    asignar_cancion(&lumina.miembro[1], &disco[1]);
 
-    printf("Asignacion el disco 'Starlight' a Jenni y a Rose:\n");
-    asignar_cancion(&jennie, &disco[0]);
-    asignar_cancion(&rose, &disco[0]);
-
-
-
-    printf("Pruebas de popularidad total\n");
-    printf("Jennie popularidad base: %d, Total con bono: %d\n", jennie.popularidad, popularidad_total(&jennie));
-    printf("Rose popularidad base: %d, Total con bono: %d\n\n", rose.popularidad, popularidad_total(&rose));
-
-    printf("Simulando que la vigencia del disco 0 se agota (vigencia = 0)...\n");
-    disco[0].vigencia = 0;
-
-    printf("Jennie popularidad total ahora (sin bono por vigencia 0): %d\n", popularidad_total(&jennie));
-    printf("Rose popularidad total ahora (sin bono por vigencia 0): %d\n", popularidad_total(&rose));
-    printf("Registrar cancion\n");
-    printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[0].nombre, disco[0].bonus, disco[0].vigencia);
-    printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[1].nombre, disco[1].bonus, disco[1].vigencia);
-
-    Idol *p = &jennie;
-
-    printf("1.Usando jennie.fans: %d\n", jennie.fans);
-    printf("2.Usando (*p).fans: %d\n", (*p).fans);
-    printf("3.usando p->fans: %d\n\n", p->fans);
-
-    mostrar(&jennie);
-    mostrar(&rose);
-
-
-    printf("Quitando la canción a Jennie mediante asignar_cancion(&jennie, NULL):\n");
-    asignar_cancion(&jennie, NULL);
-
-    mostrar(&jennie);
-    mostrar(&rose);
-
-    printf("probando seguridad con apuntador NULL en la funcion:\n");
-    asignar_cancion(NULL, &disco[1]);
-    printf("¡prueba superada sin errores de ejecutacion!\n");
-
-    printf("limitar(-5, 0, 100)  -> Resultado: %d (Debe ser 0)\n", limitar(-5, 0, 100));
-    printf("limitar(150, 0, 100) -> Resultado: %d (Debe ser 100)\n", limitar(150, 0, 100));
-    printf("limitar(40, 0, 100)  -> Resultado: %d (Debe ser 40)\n\n", limitar(40, 0, 100));
-
-    printf("¿Esta activa al inicio? (1=Si, 0=No): %d\n",esta_activa(&jennie));
-
-    for(int j = 1; j <= 5; j++){
-       ensayar(&jennie);
+    printf("Informacion del Grupo\n");
+    printf("Nombre del Grupo: %s\n", lumina.nombre);
+    printf("Numero de integrantes (n): %d\n", lumina.n);
+    if (lumina.lider == NULL) {
+        printf("Lider actual: Ninguna (NULL)\n\n");
     }
 
-    printf("estado despues de 5 ensayos consecutivos:\n");
-    mostrar(&jennie);
-
-    printf("¿Esta activa con 0 de energia? (1=Si, 0=No): %d\n",esta_activa(&jennie));
-
-    for(int j = 1; j <= 1; j++){
-       descansar(&jennie);
-    }
-
-    printf("despues de 1 descanso consecutivo:\n");
-    printf("¿Esta activa con energia > 0? (1=Si, 0=No): %d\n\n", esta_activa(&jennie));
-
-
-    printf("Llamando a ensayar_por_valor(jennie):\n");
-    ensayos_por_valor(jennie);
-    printf("En el main despues de pasar por valor, la popularidad sigue siendo: %d (No cambio)\n\n", jennie.popularidad);
-
-    printf("Llamando a ensayar(&jennie) con apuntador:\n");
-    ensayar(&jennie);
-    printf("En el main despues de pasar por apuntador, la popularidad cambio a: %d (Si cambio)\n\n", jennie.popularidad);
-
-
-    printf("¿Sigue activa jennie? (1=Si, 0=No): %d\n",esta_activa(&jennie));
-
-
-    printf("1.colaboracion(&jennie, &jennie)\n");
-    int res1 = colaboracion(&jennie, &jennie);
-    printf("Resultado obtenido (esperado 0): %d\n\n", res1);
-
-
-    printf("2.colaboracion(NULL, &rose)\n");
-    int res2 = colaboracion(NULL, &rose);
-    printf("Resultado obtenido (esperado 0): %d\n\n", res2);
-
-
-    printf("3.colaboracion(&jennie, &rose)\n");
-    int res3 = colaboracion(&jennie, &rose);
-    printf("Resultado obtenido (esperado 1): %d\n", res3);
-
-    printf("\nEstado despues de la colaboracion valida:\n");
-    mostrar(&jennie);
-    mostrar(&rose);
-
-
-Idol *turno = &jennie;
-    Idol *otra = &rose;
-    int contador_turnos = 1;
-
-
-    while (esta_activa(turno) && esta_activa(otra)) {
-        printf("Turno %d: A ensayar -> %s\n", contador_turnos, turno->nombre);
-
-
-        ensayar(turno);
-
-        Idol *temp = turno;
-        turno = otra;
-        otra = temp;
-
-        contador_turnos++;
-    }
-
-    printf("\n--- Fin de la dinamica por turnos ---\n");
-
-    if (esta_activa(&jennie)) {
-        printf("¡%s conserva energia y gana la dinamica!\n", jennie.nombre);
-    } else if (esta_activa(&rose)) {
-        printf("¡%s conserva energia y gana la dinamica!\n", rose.nombre);
-    } else {
-        printf("Ambas se quedaron sin energia al mismo tiempo.\n");
-    }
-
-    printf("\nEstado final de las idols:\n");
-    mostrar(&jennie);
-    mostrar(&rose);
-
+    printf("Mostrando la primera integrante del grupo:\n");
+    mostrar(&lumina.miembro[0]);
 
 return 0;
 }
