@@ -153,6 +153,25 @@ int contar_activas(const Grupo  *g){
     }
     return activas;
 }
+
+Idol *idol_mas_cansada(Grupo *g){
+    if (g == NULL || g->n <= 0){
+        return NULL;
+    }
+
+    Idol *mas_cansada = &g->miembro[0];
+    Idol *p = g->miembro + 1;
+    Idol *limite = g->miembro + g->n;
+
+    while (p < limite) {
+        if (p->energia < mas_cansada->energia){
+            mas_cansada = p;
+        }
+        p++;
+    }
+    return mas_cansada;
+}
+
 int main(){
 
     Cancion disco[2] = {
@@ -170,9 +189,22 @@ int main(){
         3,
         NULL
     };
-    printf("Prueba de contar integrantes activas\n");
-    printf("Integrantes acticas en lumna: %d (Esperado: 2)\n",contar_activas(&lumina));
-    printf("Integrantes activas con grupo NULL: %d (Esperado: 0)\n", contar_activas(NULL));
 
+    printf("Pruebas de idol_mas_cansada\n");
+
+
+    Idol *cansada = idol_mas_cansada(&lumina);
+
+
+    if (cansada != NULL) {
+        printf("La integrante mas cansada es: %s con %d de energia.\n\n", cansada->nombre, cansada->energia);
+        printf("Haciendo descansar a %s...\n", cansada->nombre);
+        descansar(cansada);
+        printf("Nueva energia de %s despues de descansar: %d\n", cansada->nombre, cansada->energia);
+    }
+    Idol *nulo = idol_mas_cansada(NULL);
+    if (nulo == NULL) {
+        printf("\nPrueba de seguridad idol_mas_cansada(NULL) superada con exito (retorno NULL).\n");
+    }
 return 0;
 }
