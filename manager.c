@@ -90,7 +90,15 @@ void asignar_cancion(Idol *i, Cancion *c){
     i->cancion = c;
 }
 
+int popularidad_total(const Idol *i){
+    if (i == NULL) return 0;
 
+    if (i->cancion != NULL && i->cancion->vigencia > 0){
+       return i->popularidad + i->cancion->bonus;
+    }
+
+    return i->popularidad;
+}
 int main(){
 
     Cancion disco[2] = {
@@ -106,6 +114,17 @@ int main(){
     asignar_cancion(&jennie, &disco[0]);
     asignar_cancion(&rose, &disco[0]);
 
+
+
+    printf("Pruebas de popularidad total\n");
+    printf("Jennie popularidad base: %d, Total con bono: %d\n", jennie.popularidad, popularidad_total(&jennie));
+    printf("Rose popularidad base: %d, Total con bono: %d\n\n", rose.popularidad, popularidad_total(&rose));
+
+    printf("Simulando que la vigencia del disco 0 se agota (vigencia = 0)...\n");
+    disco[0].vigencia = 0;
+
+    printf("Jennie popularidad total ahora (sin bono por vigencia 0): %d\n", popularidad_total(&jennie));
+    printf("Rose popularidad total ahora (sin bono por vigencia 0): %d\n", popularidad_total(&rose));
     printf("Registrar cancion\n");
     printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[0].nombre, disco[0].bonus, disco[0].vigencia);
     printf("Disco 0 -> Nombre:%s | Bonus:%d | Vigencia: %d presentaciones\n", disco[1].nombre, disco[1].bonus, disco[1].vigencia);
