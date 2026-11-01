@@ -101,6 +101,20 @@ int popularidad_total(const Idol *i){
 
     return i->popularidad;
 }
+
+int cambiar_lider(Grupo *g, Idol *nueva){
+    if (g == NULL || nueva == NULL){
+        return 0;
+    }
+
+    for (int i = 0; i<g->n; i++){
+        if (&g->miembro[i] == nueva){
+            g->lider = nueva;
+            return 1;
+        }
+    }
+    return 0;
+}
 int main(){
 
     Cancion disco[2] = {
@@ -119,18 +133,20 @@ int main(){
         NULL
     };
 
-    asignar_cancion(&lumina.miembro[0], &disco[0]);
-    asignar_cancion(&lumina.miembro[1], &disco[1]);
+    Idol ajena = {"jennie", 50, 100, 100, 99999, NULL};
 
-    printf("Informacion del Grupo\n");
-    printf("Nombre del Grupo: %s\n", lumina.nombre);
-    printf("Numero de integrantes (n): %d\n", lumina.n);
-    if (lumina.lider == NULL) {
-        printf("Lider actual: Ninguna (NULL)\n\n");
+    printf("Pruebas de cambio de lider\n");
+    printf("Prueba 1 (Asignar NULL): %d (Esperado: 0)\n", cambiar_lider(&lumina, NULL));
+
+    printf("Prueba 2 (Asignar idol ajena): %d (Esperado: 0)\n", cambiar_lider(&lumina, &ajena));
+
+    int res_valido = cambiar_lider(&lumina, &lumina.miembro[0]);
+    printf("Prueba 3 (Asignar miembro valido): %d (Esperado: 1)\n", res_valido);
+
+    if (lumina.lider != NULL) {
+        printf("¡Lider asignada con exito!\n");
+        printf("Fans de la lider actual (%s): %d\n", lumina.lider->nombre, lumina.lider->fans);
     }
-
-    printf("Mostrando la primera integrante del grupo:\n");
-    mostrar(&lumina.miembro[0]);
 
 return 0;
 }
