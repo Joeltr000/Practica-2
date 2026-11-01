@@ -136,6 +136,23 @@ void mostrar_grupo(const Grupo *g){
          p++;
      }
 }
+
+int contar_activas(const Grupo  *g){
+    if (g == NULL || g->n <= 0){
+        return 0;
+    }
+    int activas = 0;
+    const Idol *p = g->miembro;
+    const Idol *limite = g->miembro + g->n;
+
+    while (p < limite){
+        if (esta_activa(p)){
+            activas++;
+        }
+        p++;
+    }
+    return activas;
+}
 int main(){
 
     Cancion disco[2] = {
@@ -153,15 +170,9 @@ int main(){
         3,
         NULL
     };
-    asignar_cancion(&lumina.miembro[0],&disco[0]);
-    asignar_cancion(&lumina.miembro[1],&disco[1]);
-    cambiar_lider(&lumina, &lumina.miembro[0]);
+    printf("Prueba de contar integrantes activas\n");
+    printf("Integrantes acticas en lumna: %d (Esperado: 2)\n",contar_activas(&lumina));
+    printf("Integrantes activas con grupo NULL: %d (Esperado: 0)\n", contar_activas(NULL));
 
-    printf("Prueba de recorrido con apuntadores\n");
-    mostrar_grupo(&lumina);
-
-    printf("Probando mostrar_grupo(NULL)...\n");
-    mostrar_grupo(NULL);
-    printf("¡Prueba NULL superada sin errores!\n");
 return 0;
 }
