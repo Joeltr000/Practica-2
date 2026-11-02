@@ -222,18 +222,18 @@ int main(){
         NULL
     };
 
-    asignar_cancion(&lumina.miembro[0], &disco[0]);
-    asignar_cancion(&lumina.miembro[1], &disco[0]);
-    cambiar_lider(&lumina, &lumina.miembro[0]);
+    printf("Demostración de Arreglos y Apuntadores (%p)\n", (void*)main);
+    for (int i = 0; i < lumina.n; i++) {
+        printf("Índice [%d]:\n", i);
+        printf("  &g->miembros[%d]      = %p\n", i, (void*)&lumina.miembro[i]);
+        printf("  g->miembros + %d      = %p\n", i, (void*)(lumina.miembro + i));
+        printf("  *(g->miembros + %d)   = %s\n", i, (*(lumina.miembro + i)).nombre);
+    }
+    printf("----------------------------------------------------------\n");
 
-    printf("Pruebas de dar conciertos\n");
-
-    dar_concierto(&lumina);
 
 
-    dar_concierto(&lumina);
 
-    dar_concierto(&lumina);
 
     return 0;
 }
