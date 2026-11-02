@@ -225,6 +225,28 @@ void mostrar_cancion_lider(const Grupo * g){
 }
 
 
+void preparar_presentacion(Grupo *g) {
+    if (g == NULL) return;
+
+    printf("\n---------------------------------------=\n");
+    printf("     Preparando precentacion: %s        \n", g->nombre);
+    printf("------------------------------------------\n");
+
+    Idol *cansada = idol_mas_cansada(g);
+    if (cansada != NULL) {
+        printf("-> Integrante más cansada detectada: %s (Energía actual: %d)\n", cansada->nombre, cansada->energia);
+        descansar(cansada);
+        printf("-> %s ha descansado. Nueva energía: %d / %d\n", cansada->nombre, cansada->energia, cansada->energia_max);
+    }
+
+    dar_concierto(g);
+
+    printf("\nResumen final para el esenario\n");
+    mostrar_grupo(g);
+    printf("Total de integrantes activas: %d / %d\n", contar_activas(g), g->n);
+    mostrar_cancion_lider(g);
+    printf("---------------------------------\n\n");
+}
 int main(){
 
     Cancion disco[2] = {
@@ -236,30 +258,19 @@ int main(){
         {
             {"jennie", 50, 100, 100, 12000,NULL},
             {"rose", 45, 100, 100, 10000,NULL},
+            {"lisa", 55, 80, 100, 15000, NULL}
         },
-        2,
+        3,
         NULL
     };
 
-    printf(" Pruebas de mostrar_cancion_lider en tres escenarios\n");
-
-    printf("Escenario 1 (Grupo sin líder):\n");
-    mostrar_cancion_lider(&lumina);
-    printf("\n");
-
+    asignar_cancion(&lumina.miembro[0], &disco[0]);
     cambiar_lider(&lumina, &lumina.miembro[0]);
 
-    printf("Escenario 2 (Líder sin canción):\n");
-    mostrar_cancion_lider(&lumina);
-    printf("\n");
+    printf("Pruebas de preparar_presentacion\n");
 
-    asignar_cancion(&lumina.miembro[0], &disco[0]);
-
-    printf("Escenario 3 (Líder con canción):\n");
-    mostrar_cancion_lider(&lumina);
-
-
-
+    preparar_presentacion(&lumina);
+    preparar_presentacion(&lumina);
     return 0;
 }
 
