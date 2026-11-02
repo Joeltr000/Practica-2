@@ -205,6 +205,26 @@ void dar_concierto(Grupo *g){
     }
     printf("-----------------------------------------------------------\n\n");
 }
+
+void mostrar_cancion_lider(const Grupo * g){
+    if (g == NULL){
+        printf("[Aviso] El grupo no existe (es NULL). \n");
+        return;
+    }
+
+    if (g->lider == NULL){
+        printf("[Aviso] El grupo '%s' no tiene una lider asignada actualmente.\n", g->nombre);
+        return;
+    }
+
+    if(g->lider->cancion == NULL){
+       printf("[Aviso] La lider '%s' no tiene ninguna cancion asignada.\n", g->lider->nombre);
+       return;
+    }
+    printf("La cancion interpretada por la lider (%s) es: '%s'\n",g->lider->nombre, g->lider->cancion->nombre);
+}
+
+
 int main(){
 
     Cancion disco[2] = {
@@ -216,22 +236,27 @@ int main(){
         {
             {"jennie", 50, 100, 100, 12000,NULL},
             {"rose", 45, 100, 100, 10000,NULL},
-            {"lisa", 55, 100, 100, 15000,NULL}
         },
-        3,
+        2,
         NULL
     };
 
-    printf("Demostración de Arreglos y Apuntadores (%p)\n", (void*)main);
-    for (int i = 0; i < lumina.n; i++) {
-        printf("Índice [%d]:\n", i);
-        printf("  &g->miembros[%d]      = %p\n", i, (void*)&lumina.miembro[i]);
-        printf("  g->miembros + %d      = %p\n", i, (void*)(lumina.miembro + i));
-        printf("  *(g->miembros + %d)   = %s\n", i, (*(lumina.miembro + i)).nombre);
-    }
-    printf("----------------------------------------------------------\n");
+    printf(" Pruebas de mostrar_cancion_lider en tres escenarios\n");
 
+    printf("Escenario 1 (Grupo sin líder):\n");
+    mostrar_cancion_lider(&lumina);
+    printf("\n");
 
+    cambiar_lider(&lumina, &lumina.miembro[0]);
+
+    printf("Escenario 2 (Líder sin canción):\n");
+    mostrar_cancion_lider(&lumina);
+    printf("\n");
+
+    asignar_cancion(&lumina.miembro[0], &disco[0]);
+
+    printf("Escenario 3 (Líder con canción):\n");
+    mostrar_cancion_lider(&lumina);
 
 
 
