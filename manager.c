@@ -172,11 +172,43 @@ Idol *idol_mas_cansada(Grupo *g){
     return mas_cansada;
 }
 
+void dar_concierto(Grupo *g){
+    if (g == NULL){
+        return;
+    }
+    printf("\nEl grupo %s esta dando un concierto\n", g->nombre);
+
+    Idol *p = g->miembro;
+    Idol *limite = g->miembro + g->n;
+
+    while (p < limite){
+        if (esta_activa(p)){
+            int fans_ganados = popularidad_total(p) * 10;
+            p->fans += fans_ganados;
+
+            p->energia = limitar(p->energia -25, 0, p->energia_max);
+
+            printf("-> %s participo en el concierto: gano %d fans y gasto energia.\n", p->nombre, fans_ganados);
+
+            if (p->cancion != NULL && p->cancion->vigencia > 0) {
+                p->cancion->vigencia--;
+                printf("    [Canción '%s' gastó 1 presentación. Vigencia restante: %d]\n", p->cancion->nombre, p->cancion->vigencia);
+
+                if (p->cancion->vigencia == 0) {
+                    printf("    ¡ATENCIÓN! La canción '%s' ha llegado a 0 de vigencia y ya no otorga bono.\n", p->cancion->nombre);
+                }
+            }
+        } else {
+            printf(" -> %s no pudo participar porque no está activa (energía en 0).\n", p->nombre);
+        }
+        p++;
+    }
+    printf("-----------------------------------------------------------\n\n");
+}
 int main(){
 
     Cancion disco[2] = {
-        {"Starlight", 10, 3},
-        {"Nova", 5,6}
+        {"Starlight", 10, 2}
     };
 
     Grupo lumina = {
@@ -190,21 +222,21 @@ int main(){
         NULL
     };
 
-    printf("Pruebas de idol_mas_cansada\n");
+    asignar_cancion(&lumina.miembro[0], &disco[0]);
+    asignar_cancion(&lumina.miembro[1], &disco[0]);
+    cambiar_lider(&lumina, &lumina.miembro[0]);
+
+    printf("Pruebas de dar conciertos\n");
+
+    dar_concierto(&lumina);
 
 
-    Idol *cansada = idol_mas_cansada(&lumina);
+    dar_concierto(&lumina);
 
+    dar_concierto(&lumina);
 
-    if (cansada != NULL) {
-        printf("La integrante mas cansada es: %s con %d de energia.\n\n", cansada->nombre, cansada->energia);
-        printf("Haciendo descansar a %s...\n", cansada->nombre);
-        descansar(cansada);
-        printf("Nueva energia de %s despues de descansar: %d\n", cansada->nombre, cansada->energia);
-    }
-    Idol *nulo = idol_mas_cansada(NULL);
-    if (nulo == NULL) {
-        printf("\nPrueba de seguridad idol_mas_cansada(NULL) superada con exito (retorno NULL).\n");
-    }
-return 0;
+    return 0;
 }
+
+
+
